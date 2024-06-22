@@ -45,7 +45,7 @@ extension ToDoFormView {
     }
     
     func addToDo() {
-        let todo = ToDo(name: viewModel.name)
+        let todo = ToDo(name: viewModel.name, completed: viewModel.completed)
         dataStore.addTodo(todo)
         dismiss()
     }
