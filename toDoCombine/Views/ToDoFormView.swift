@@ -40,13 +40,13 @@ struct ToDoFormView: View {
 extension ToDoFormView {
     func updateToDo() {
         let todo = ToDo(id: viewModel.id!, name: viewModel.name, completed: viewModel.completed)
-        dataStore.updateToDo(todo)
+        dataStore.updateToDo.send(todo)
         dismiss()
     }
     
     func addToDo() {
         let todo = ToDo(name: viewModel.name, completed: viewModel.completed)
-        dataStore.addTodo(todo)
+        dataStore.addToDo.send(todo)
         dismiss()
     }
     

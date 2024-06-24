@@ -6,33 +6,71 @@
 //
 
 import Foundation
+import Combine
 
 final class DataStore: ObservableObject {
     @Published var toDos: [ToDo] = []
     @Published var appError: ErrorType? = nil
     @Published var isAlertShowing = false
+    
+    var subscriptions = Set<AnyCancellable>()
+    
+    var addToDo    = PassthroughSubject<ToDo, Never>()
+    var updateToDo = PassthroughSubject<ToDo, Never>()
+    var deleteToDo = PassthroughSubject<IndexSet, Never>()
+    
+    
+    
     init() {
         print(FileManager.docDirURL.path(percentEncoded: true))
+        addSubscriptions()
         if FileManager().docExist(named: fileName) {
             loadToDos()
         }
     }
     
-    func addTodo(_ toDo: ToDo) {
-        toDos.append(toDo)
-        saveToDos()
+    func addSubscriptions() {
+        addToDo
+            .sink { [unowned self] todo in
+            self.toDos.append(todo)
+            self.saveToDos()
+        }
+        .store(in: &subscriptions)
+        
+        updateToDo
+            .sink { [unowned self] todo in
+            guard let index = toDos.firstIndex(where: { $0.id == todo.id }) else { return }
+            self.toDos[index] = todo
+            self.saveToDos()
+        }
+        .store(in: &subscriptions)  
+        
+        deleteToDo
+            .sink { [unowned self] indexSet in
+                toDos.remove(atOffsets: indexSet)
+                saveToDos()
+        }
+        .store(in: &subscriptions)
+        
+        
+        
     }
     
-    func updateToDo(_ toDo: ToDo) {
-        guard let index = toDos.firstIndex(where: { $0.id == toDo.id }) else { return }
-        toDos[index] = toDo
-        saveToDos()
-    }
-    
-    func deleteToDo(at indexSet: IndexSet) {
-        toDos.remove(atOffsets: indexSet)
-        saveToDos()
-    }
+//    func addTodo(_ toDo: ToDo) {
+//        toDos.append(toDo)
+//        saveToDos()
+//    }
+//    
+//    func updateToDo(_ toDo: ToDo) {
+//        guard let index = toDos.firstIndex(where: { $0.id == toDo.id }) else { return }
+//        toDos[index] = toDo
+//        saveToDos()
+//    }
+//    
+//    func deleteToDo(at indexSet: IndexSet) {
+//        toDos.remove(atOffsets: indexSet)
+//        saveToDos()
+//    }
     
     func loadToDos() {
         FileManager().readDocument(docName: fileName) { result in

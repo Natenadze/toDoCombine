@@ -25,7 +25,7 @@ struct ContentView: View {
                             .foregroundStyle(item.completed ? .green : .primary)
                     }
                 }
-                .onDelete (perform: dataStore.deleteToDo)
+                .onDelete (perform: dataStore.deleteToDo.send)
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
