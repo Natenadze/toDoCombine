@@ -9,7 +9,8 @@ import Foundation
 
 final class DataStore: ObservableObject {
     @Published var toDos: [ToDo] = []
-    
+    @Published var appError: ErrorType? = nil
+    @Published var isAlertShowing = false
     init() {
         print(FileManager.docDirURL.path(percentEncoded: true))
         if FileManager().docExist(named: fileName) {
@@ -34,7 +35,6 @@ final class DataStore: ObservableObject {
     }
     
     func loadToDos() {
-//        toDos = ToDo.sampleData
         FileManager().readDocument(docName: fileName) { result in
             switch result {
             case .success(let data):
@@ -42,11 +42,13 @@ final class DataStore: ObservableObject {
                 do {
                     toDos = try decoder.decode([ToDo].self, from: data)
                 } catch {
-                    print(error.localizedDescription)
+                    appError = ErrorType(error: .decodingError)
+                    isAlertShowing = true
                 }
                 
             case .failure(let error):
-                print(error.localizedDescription)
+                appError = ErrorType(error: error)
+                isAlertShowing = true
             }
         }
     }
@@ -59,11 +61,13 @@ final class DataStore: ObservableObject {
             let jsonString = String(decoding: data, as: UTF8.self)
             FileManager().saveDocument(contents: jsonString, docName: fileName) { error in
                 if let error {
-                    print(error.localizedDescription)
+                    appError = ErrorType(error: error)
+                    isAlertShowing = true
                 }
             }
         } catch {
-            print(error.localizedDescription)
+            appError = ErrorType(error: .encodingError)
+            isAlertShowing = true
         }
     }
 }

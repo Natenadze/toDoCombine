@@ -17,6 +17,7 @@
 		5D0AA5B12C260B5000CFE044 /* ToDoFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0AA5B02C260B5000CFE044 /* ToDoFormView.swift */; };
 		5D0AA5B32C260F0E00CFE044 /* ModalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0AA5B22C260F0E00CFE044 /* ModalType.swift */; };
 		5D0AA5B92C27646300CFE044 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0AA5B82C27646300CFE044 /* FileManager+Extension.swift */; };
+		5D0AA5BB2C28137100CFE044 /* TodoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0AA5BA2C28137100CFE044 /* TodoError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		5D0AA5B02C260B5000CFE044 /* ToDoFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoFormView.swift; sourceTree = "<group>"; };
 		5D0AA5B22C260F0E00CFE044 /* ModalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalType.swift; sourceTree = "<group>"; };
 		5D0AA5B82C27646300CFE044 /* FileManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
+		5D0AA5BA2C28137100CFE044 /* TodoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			children = (
 				5D0AA5A92C26064100CFE044 /* todo.swift */,
 				5D0AA5B22C260F0E00CFE044 /* ModalType.swift */,
+				5D0AA5BA2C28137100CFE044 /* TodoError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 				5D0AA5AA2C26064100CFE044 /* todo.swift in Sources */,
 				5D0AA5AD2C26070900CFE044 /* DataStore.swift in Sources */,
 				5D0AA59E2C26061700CFE044 /* ContentView.swift in Sources */,
+				5D0AA5BB2C28137100CFE044 /* TodoError.swift in Sources */,
 				5D0AA59C2C26061700CFE044 /* toDoCombineApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

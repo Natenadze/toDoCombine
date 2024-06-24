@@ -44,6 +44,9 @@ struct ContentView: View {
                 }
             }
             .sheet(item: $modalType) { $0 }
+            .alert(isPresented: $dataStore.isAlertShowing, error: dataStore.appError) {
+             
+            }
         }
     }
 }
