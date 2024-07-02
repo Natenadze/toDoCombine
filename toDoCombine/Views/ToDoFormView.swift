@@ -12,15 +12,24 @@ struct ToDoFormView: View {
     @ObservedObject var viewModel: ToDoViewModel
     @Environment(\.dismiss) var dismiss
     
+    enum FocusField {
+        case todo
+    }
+    
+    @FocusState private var focusedField: FocusField?
+    
     
     var body: some View {
         NavigationStack {
             Form {
                 VStack {
                     TextField("ToDo", text: $viewModel.name)
+                        .focused($focusedField, equals: .todo)
+                    
                     Toggle("isCompleted", isOn: $viewModel.completed)
                 }
             }
+            .task { focusedField = .todo }
             .navigationTitle("ToDo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -31,6 +40,17 @@ struct ToDoFormView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     updateSaveButton
                 }
+                
+//                ToolbarItemGroup(placement: .keyboard) {
+//                    HStack {
+//                        Button("Done") { focusedField = nil }
+//                            .frame(maxWidth: .infinity, alignment: .trailing)
+//                    }
+//                 
+//                }
+            }
+            .onTapGesture {
+                focusedField = nil
             }
         }
     }
@@ -38,6 +58,7 @@ struct ToDoFormView: View {
 
 // MARK: - Extension
 extension ToDoFormView {
+    
     func updateToDo() {
         let todo = ToDo(id: viewModel.id!, name: viewModel.name, completed: viewModel.completed)
         dataStore.updateToDo.send(todo)
